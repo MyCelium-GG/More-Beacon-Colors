@@ -21,6 +21,10 @@ networking and diagnostics are reused.
 | Side | Both (client needed for the menu; the server shares colors) |
 | Docs | [wiki.mycelium-gg.org/morebeaconcolors](https://wiki.mycelium-gg.org/morebeaconcolors/) |
 
+![Three colored beacon beams](https://wiki.mycelium-gg.org/morebeaconcolors/img/beams.png)
+
+![The beam color menu](https://wiki.mycelium-gg.org/morebeaconcolors/img/menu-gradient.png)
+
 ## Behavior
 
 - **The button**: open a beacon and a beacon button appears just outside

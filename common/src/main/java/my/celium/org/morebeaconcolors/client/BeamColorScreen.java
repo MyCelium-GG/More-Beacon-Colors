@@ -196,10 +196,13 @@ public final class BeamColorScreen extends Screen {
         int y = sectionY() + 11 + 3;
         int x = x1();
         for (String label : ROW_BUTTONS) {
+            x -= font.width(label) + 12 + 3;
+        }
+        for (String label : ROW_BUTTONS) {
             int w = font.width(label) + 12;
-            x -= w;
-            out.add(0, new Rect(x, y, w, ROW_H));
-            x -= 3;
+            x += 3;
+            out.add(new Rect(x, y, w, ROW_H));
+            x += w;
         }
         return out;
     }
@@ -669,10 +672,10 @@ public final class BeamColorScreen extends Screen {
         return switch (mode) {
             case VANILLA -> "Stained glass above the beacon colors the beam.";
             case SOLID -> "One color for the whole beam.";
-            case GRADIENT -> "Fades from the bottom color to the top color.";
+            case GRADIENT -> "Fades through your colors, bottom to top.";
             case RAINBOW -> "Rainbow stripes rising up the beam.";
             case CYCLE -> "The whole beam runs through every color.";
-            case PULSE -> "Fades back and forth between two colors.";
+            case PULSE -> "Fades through your colors and back.";
         };
     }
 
