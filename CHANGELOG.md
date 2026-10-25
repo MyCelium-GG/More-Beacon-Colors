@@ -6,7 +6,7 @@ More Beacon Colors is versioned semantically (`MAJOR.MINOR.PATCH`).
 It runs on Minecraft 26.3 (Fabric + Forge + NeoForge, Java 25) and requires
 [Mycel](https://github.com/MyCelium-GG/MyCel-Lib) (`my.celium.org`).
 
-## [1.0.0] - 2026-10-24
+## [1.0.0] - 2026-10-25
 
 ### Added
 
