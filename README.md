@@ -97,7 +97,7 @@ beams by swapping the beacon's beam sections each tick (no mixins).
 
 Mycel itself comes from [JitPack](https://jitpack.io/#MyCelium-GG/MyCel-Lib)
 as one universal jar for all loaders
-(`com.github.MyCelium-GG:MyCel-Lib:1.3.1`). No local setup needed.
+(`com.github.MyCelium-GG:MyCel-Lib:1.4.0`). No local setup needed.
 
 ## Releasing
 

@@ -13,7 +13,6 @@ import my.celium.org.morebeaconcolors.net.SetBeamPacket;
 import my.celium.org.morebeaconcolors.server.BeaconColors;
 import my.celium.org.network.MycelNetwork;
 import my.celium.org.network.PacketDefinition;
-import my.celium.org.platform.Platform;
 
 /**
  * More Beacon Colors: a button on the beacon screen opens a color menu for
@@ -64,15 +63,11 @@ public final class MoreBeaconColorsMod {
         setBeam = PacketDefinition.toServer(SetBeamPacket.TYPE, SetBeamPacket.CODEC,
                 (packet, context) -> BeaconColors.onSetBeam(packet, context.sender()));
         beams = PacketDefinition.toClient(BeamsPacket.TYPE, BeamsPacket.CODEC, BeamsPacket::receive);
-        // Both channels must be optional, so players with the mod can join
-        // servers without it (and the other way round). Mycel 1.3.1 registers
-        // them as required on NeoForge and crashes on Fabric with a serverbound
-        // packet, so the Fabric and NeoForge modules wire them themselves. On
-        // Forge every Mycel mod already shares Mycel's own channel.
-        if (Mycel.getPlatform() == Platform.FORGE) {
-            MycelNetwork.register(META, setBeam);
-            MycelNetwork.register(META, beams);
-        }
+        // Mycel 1.4.0+ registers both channels as optional on every loader,
+        // so players with the mod can join servers without it and the other
+        // way round; senders skip clients without the channel.
+        MycelNetwork.register(META, setBeam);
+        MycelNetwork.register(META, beams);
 
         MycelEvents.onServerLifecycle(event -> {
             if (event.phase() == ServerLifecycleEvent.Phase.STARTED) {

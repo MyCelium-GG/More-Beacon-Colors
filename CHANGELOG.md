@@ -27,5 +27,5 @@ It runs on Minecraft 26.3 (Fabric + Forge + NeoForge, Java 25) and requires
   `allowAnimated`, `debug`; live reload via
   `/mycel reload morebeaconcolors`; config screen from the mod list on Forge
   and NeoForge.
-- Built on Mycel 1.3.1
+- Built on Mycel 1.4.0
   (`com.github.MyCelium-GG:MyCel-Lib:1.3.1` via JitPack).

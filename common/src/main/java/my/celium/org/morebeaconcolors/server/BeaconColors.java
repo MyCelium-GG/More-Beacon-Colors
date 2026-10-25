@@ -12,8 +12,8 @@ import my.celium.org.morebeaconcolors.MoreBeaconColorsMod;
 import my.celium.org.morebeaconcolors.data.BeamStore;
 import my.celium.org.morebeaconcolors.data.BeamStyle;
 import my.celium.org.morebeaconcolors.net.BeamsPacket;
-import my.celium.org.morebeaconcolors.net.Net;
 import my.celium.org.morebeaconcolors.net.SetBeamPacket;
+import my.celium.org.network.MycelNetwork;
 import my.celium.org.schedule.MycelScheduler;
 import my.celium.org.schedule.ScheduledTask;
 import my.celium.org.util.ChatVoice;
@@ -97,7 +97,7 @@ public final class BeaconColors {
         int i = 0;
         do {
             List<BeamsPacket.Entry> chunk = entries.subList(i, Math.min(entries.size(), i + BeamsPacket.MAX_ENTRIES));
-            Net.send(player, new BeamsPacket(first, new ArrayList<>(chunk)));
+            MycelNetwork.sendToPlayer(player, MoreBeaconColorsMod.beams, new BeamsPacket(first, new ArrayList<>(chunk)));
             first = false;
             i += BeamsPacket.MAX_ENTRIES;
         } while (i < entries.size());
@@ -109,7 +109,7 @@ public final class BeaconColors {
         }
         BeamsPacket packet = new BeamsPacket(false, entries);
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-            Net.send(player, packet);
+            MycelNetwork.sendToPlayer(player, MoreBeaconColorsMod.beams, packet);
         }
     }
 

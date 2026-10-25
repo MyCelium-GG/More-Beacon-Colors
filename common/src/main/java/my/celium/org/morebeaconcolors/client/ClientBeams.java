@@ -16,11 +16,11 @@ import my.celium.org.morebeaconcolors.data.BeamStore;
 import my.celium.org.morebeaconcolors.data.BeamStyle;
 import my.celium.org.morebeaconcolors.net.BeamsPacket;
 import my.celium.org.morebeaconcolors.net.SetBeamPacket;
+import my.celium.org.network.MycelNetwork;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BeaconBeamOwner;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
@@ -91,10 +91,7 @@ public final class ClientBeams {
     /** Applies a style: through the server when it has the mod, otherwise locally. */
     public static void set(Level level, BlockPos pos, BeamStyle style) {
         if (serverHasMod()) {
-            ClientPacketListener connection = Minecraft.getInstance().getConnection();
-            if (connection != null) {
-                connection.send(new ServerboundCustomPayloadPacket(new SetBeamPacket(pos, style)));
-            }
+            MycelNetwork.sendToServer(MoreBeaconColorsMod.setBeam, new SetBeamPacket(pos, style));
             return;
         }
         loadLocal();

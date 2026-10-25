@@ -13,14 +13,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import my.celium.org.Mycel;
-import my.celium.org.internal.PlatformHolder;
 import my.celium.org.morebeaconcolors.client.BeamButton;
+import my.celium.org.testing.MycelTesting;
 
 /** The mod boots on Mycel with a small, well-defaulted config and both packet definitions. */
 class MoreBeaconColorsModTest {
     @BeforeAll
     static void initOnce(@TempDir Path tempDir) {
-        PlatformHolder.setForTesting(new TestPlatform(tempDir));
+        MycelTesting.useConfigDir(tempDir);
         MoreBeaconColorsMod.init();
     }
 
