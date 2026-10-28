@@ -7,5 +7,5 @@ gradients, rainbows, color cycles and pulses, with a live preview.
 - Saved with the world and shown to every player with the mod
 - Works on servers without the mod too (only you see the colors)
 
-Requires **Mycel**. Needs Forge 66.0.9+, Minecraft 26.3, Java 25.
+Requires **Mycel**. Needs Forge, Minecraft 26.3, 26.2 or 26.1 (26.1-26.1.2), Java 25.
 MIT license.

@@ -2,6 +2,7 @@ package my.celium.org.morebeaconcolors.client;
 
 import java.lang.reflect.Field;
 
+import my.celium.org.client.MycelScreens;
 import my.celium.org.morebeaconcolors.MoreBeaconColorsMod;
 import my.celium.org.morebeaconcolors.data.BeamPainter;
 import my.celium.org.morebeaconcolors.data.BeamStyle;
@@ -82,7 +83,7 @@ public final class BeamButton extends AbstractButton {
 
     @Override
     public void onPress(InputWithModifiers input) {
-        Minecraft.getInstance().gui.setScreen(new BeamColorScreen(beacon, pos));
+        MycelScreens.open(new BeamColorScreen(beacon, pos));
     }
 
     @Override

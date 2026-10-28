@@ -16,7 +16,7 @@ networking and diagnostics are reused.
 | | |
 |---|---|
 | Mod id | `morebeaconcolors` |
-| Minecraft | **26.3** · Java **25** |
+| Minecraft | **26.3**, **26.2**, **26.1** (26.1-26.1.2) · Java **25** |
 | Loaders | Fabric, Forge, NeoForge |
 | Side | Both (client needed for the menu; the server shares colors) |
 | Docs | [wiki.mycelium-gg.org/morebeaconcolors](https://wiki.mycelium-gg.org/morebeaconcolors/) |

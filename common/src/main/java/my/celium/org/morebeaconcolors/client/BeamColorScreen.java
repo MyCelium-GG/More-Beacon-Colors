@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.mojang.blaze3d.platform.InputConstants;
 
+import my.celium.org.client.MycelScreens;
 import my.celium.org.client.MycelTheme;
 import my.celium.org.morebeaconcolors.MoreBeaconColorsMod;
 import my.celium.org.morebeaconcolors.data.BeamPainter;
@@ -439,7 +440,7 @@ public final class BeamColorScreen extends Screen {
     public void onClose() {
         LocalPlayer player = minecraft.player;
         boolean beaconOpen = parent != null && player != null && player.containerMenu == parent.getMenu();
-        minecraft.gui.setScreen(beaconOpen ? parent : null);
+        MycelScreens.open(beaconOpen ? parent : null);
     }
 
     // ================================================================ render

@@ -26,7 +26,7 @@ import my.celium.org.network.PacketDefinition;
 public final class MoreBeaconColorsMod {
     public static final String ID = "morebeaconcolors";
 
-    public static final ModMetadata META = ModMetadata.builder(ID, "More Beacon Colors", "1.0.1")
+    public static final ModMetadata META = ModMetadata.builder(ID, "More Beacon Colors", "1.1.0")
             .author("MyCelium")
             .website("https://www.curseforge.com/minecraft/mc-mods/more-beacon-colors")
             .updateUrl("https://wiki.mycelium-gg.org/updates/morebeaconcolors.json")
