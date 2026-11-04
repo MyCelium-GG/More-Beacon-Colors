@@ -136,10 +136,29 @@ public final class BeaconColors {
         }
         BeamStore.Key key = key(level, pos);
         if (STORE.put(key, style)) {
+            my.celium.org.morebeaconcolors.BeamStats.count("color_beam");
+            my.celium.org.morebeaconcolors.BeamStats.count("chosen_modes", style.mode().id());
             save();
             broadcast(List.of(new BeamsPacket.Entry(key, style)));
             MoreBeaconColorsMod.debug("{} set {} to {}", player.getName().getString(), key, style);
         }
+    }
+
+    /** Colored beams in the running world, or {@code null} when no world runs. For stats. */
+    public static Integer coloredCount() {
+        return server == null ? null : STORE.size();
+    }
+
+    /** Colored beams per mode in the running world, or {@code null}. For stats. */
+    public static java.util.Map<String, Integer> modeCounts() {
+        if (server == null || STORE.size() == 0) {
+            return null;
+        }
+        java.util.Map<String, Integer> counts = new java.util.TreeMap<>();
+        for (BeamStyle style : new java.util.ArrayList<>(STORE.all().values())) {
+            counts.merge(style.mode().id(), 1, Integer::sum);
+        }
+        return counts;
     }
 
     /** The beacon behind the player's open beacon menu, read from the menu itself. */

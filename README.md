@@ -69,6 +69,13 @@ forgotten.
 - `config/morebeaconcolors-local.json` on the client, for servers without
   the mod.
 
+## Anonymous stats
+
+More Beacon Colors sends anonymous stats (how many beams get colored, which modes, and errors in its own code) to its FastStats project through
+Mycel. It follows Mycel's choice exactly: the one-time screen in your own
+game, `shareStats` / `shareErrors` in `config/mycel.json` on servers.
+Details: https://wiki.mycelium-gg.org/privacy#stats-morebeaconcolors
+
 ## Configuration (`config/morebeaconcolors.json`)
 
 | Key | Default | Meaning |
