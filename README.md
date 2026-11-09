@@ -1,118 +1,36 @@
-# More Beacon Colors
+<p align="center">
+  <img src="https://raw.githubusercontent.com/MyCelium-GG/More-Beacon-Colors/5763881fdbc0/docs/img/banners/header.svg" alt="More Beacon Colors" width="100%">
+</p>
 
-[![License](https://img.shields.io/github/license/MyCelium-GG/More-Beacon-Colors)](LICENSE)
+<p align="center">
+  <a href="https://www.curseforge.com/minecraft/mc-mods/more-beacon-colors"><img src="https://img.shields.io/curseforge/dt/1763485?style=flat-square&logo=curseforge&logoColor=white&label=downloads&color=F16436" alt="CurseForge downloads"></a>
+  <a href="https://www.curseforge.com/minecraft/mc-mods/more-beacon-colors/files"><img src="https://img.shields.io/badge/Minecraft-26.1%20--%2026.3-62B47A?style=flat-square" alt="Minecraft 26.1 to 26.3"></a>
+  <img src="https://img.shields.io/badge/loaders-Fabric%2C%20Forge%2C%20NeoForge-1E88E5?style=flat-square" alt="Fabric, Forge, NeoForge">
+  <img src="https://img.shields.io/badge/side-client%20%2B%20server-8E44AD?style=flat-square" alt="Client and server">
+  <img src="https://img.shields.io/badge/Java-25-E76F00?style=flat-square&logo=openjdk&logoColor=white" alt="Java 25">
+  <a href="https://www.curseforge.com/minecraft/mc-mods/mycel"><img src="https://img.shields.io/badge/requires-Mycel-F16436?style=flat-square&logo=curseforge&logoColor=white" alt="Requires Mycel"></a>
+  <a href="https://wiki.mycelium-gg.org/morebeaconcolors/"><img src="https://img.shields.io/badge/docs-wiki-0A7BBB?style=flat-square" alt="Docs on the wiki"></a>
+  <a href="https://github.com/MyCelium-GG/More-Beacon-Colors/blob/main/LICENSE"><img src="https://img.shields.io/github/license/MyCelium-GG/More-Beacon-Colors?style=flat-square&color=F2C14E" alt="License"></a>
+</p>
 
-Any color for your beacon beam, picked from a menu in the beacon. A button
-beside the beacon screen opens it: solid colors from the 16 dyes or any
-custom color, gradients through as many colors as you like, rainbows, color
-cycles and pulses, with a live preview. On a server with the mod, colors are
-saved with the world and every player with the mod sees them. On a server
-without it, they are kept on your computer and only you see them.
+![About the mod](https://raw.githubusercontent.com/MyCelium-GG/More-Beacon-Colors/5763881fdbc0/docs/img/banners/about-the-mod.svg)
 
-Built on [Mycel](https://github.com/MyCelium-GG/MyCel-Lib) (`my.celium.org`), the shared
-core for the MyCelium ecosystem: configuration, platform abstraction,
-networking and diagnostics are reused.
+<img src="https://raw.githubusercontent.com/MyCelium-GG/More-Beacon-Colors/5763881fdbc0/docs/img/banners/about.svg" alt="More Beacon Colors Any color for your beacon beam, picked from a menu in the beacon. A button beside the beacon screen opens it: solid colors from the 16 dyes or any custom color, gradients through as many colors as you like, rainbows, color cycles and pulses, with a live preview. On a server with the mod, colors are saved with the world and every player with the mod sees them. On a server without it, they are kept on your computer and only you see them." width="100%">
 
-| | |
-|---|---|
-| Mod id | `morebeaconcolors` |
-| Minecraft | **26.3**, **26.2**, **26.1** (26.1-26.1.2) · Java **25** |
-| Loaders | Fabric, Forge, NeoForge |
-| Side | Both (client needed for the menu; the server shares colors) |
-| Docs | [wiki.mycelium-gg.org/morebeaconcolors](https://wiki.mycelium-gg.org/morebeaconcolors/) |
+![Behavior](https://raw.githubusercontent.com/MyCelium-GG/More-Beacon-Colors/5763881fdbc0/docs/img/banners/behavior.svg)
 
-![Three colored beacon beams](https://wiki.mycelium-gg.org/morebeaconcolors/img/beams.png)
+<img src="https://raw.githubusercontent.com/MyCelium-GG/More-Beacon-Colors/5763881fdbc0/docs/img/banners/behavior-box.svg" alt="The button: Open a beacon and a beacon button appears just outside the top-right corner of its window, over a strip in the beam's current color. Click it for the color menu. Back returns to the beacon. Styles:  Vanilla: no override, stained glass decides (the default). Solid: one color for the whole beam. Gradient: fades through 2 to 16 colors, the first at the bottom, the last at the top of the w" width="100%">
 
-![The beam color menu](https://wiki.mycelium-gg.org/morebeaconcolors/img/menu-gradient.png)
+<img src="https://raw.githubusercontent.com/MyCelium-GG/More-Beacon-Colors/5763881fdbc0/docs/img/banners/behavior-table.svg" alt="Behavior table: Server and client with the mod, Colors are saved with the world and everyone with the mod sees them.; Client with the mod, server without, Colors are kept in config/morebeaconcolors-local.json (per server address) and only you see them.; Client without the mod, Vanilla beams. Nothing to install to join." width="100%">
 
-## Behavior
+<img src="https://raw.githubusercontent.com/MyCelium-GG/More-Beacon-Colors/5763881fdbc0/docs/img/banners/behavior-box-2.svg" alt="On a server, a player can only color a beacon they have open (within 8 blocks, like the beacon menu). Colors of a beacon that was broken are forgotten. Where colors live:  <world>/data/morebeaconcolors.json on the server: one entry per colored beacon (dimension, position, style, colors as #RRGGBB). Hand-editable; a file that no longer parses is kept as .broken. config/morebeaconcolors-local.json o" width="100%">
 
-- **The button**: open a beacon and a beacon button appears just outside
-  the top-right corner of its window, over a strip in the beam's current
-  color. Click it for the color menu. *Back* returns to the beacon.
-- **Styles**:
-  - *Vanilla*: no override, stained glass decides (the default).
-  - *Solid*: one color for the whole beam.
-  - *Gradient*: fades through 2 to 16 colors, the first at the bottom, the
-    last at the top of the world.
-  - *Rainbow*: rainbow stripes rising up the beam.
-  - *Color cycle*: the whole beam runs through every color.
-  - *Pulse*: the whole beam fades through 2 to 16 colors and back.
-- **Colors**: 16 dye colors and 8 extras, a saturation/brightness square
-  with a hue bar, and a hex field. Gradients and pulses show a row of
-  colors: click one to edit it, *+* adds a color after the selected one,
-  *-* removes it, *Reverse* flips the order.
-- **Speed**: slow, normal or fast for the animated styles.
-- **Preview**: the beacon on its iron blocks under a day or night sky
-  (click to switch), with the beam painted exactly as in the world. Scroll
-  to zoom out up to the whole beam.
-- **Apply** (or Enter) sets the style; *Reset* goes back to vanilla. The
-  footer says when there are changes you have not applied.
+![Anonymous stats](https://raw.githubusercontent.com/MyCelium-GG/More-Beacon-Colors/5763881fdbc0/docs/img/banners/anonymous-stats.svg)
 
-### Who sees what
+<img src="https://raw.githubusercontent.com/MyCelium-GG/More-Beacon-Colors/5763881fdbc0/docs/img/banners/anonymous-stats-box.svg" alt="More Beacon Colors sends anonymous stats (how many beams get colored, which modes, and errors in its own code) to its FastStats project through Mycel. It follows Mycel's choice exactly: the one-time screen in your own game, shareStats / shareErrors in config/mycel.json on servers." width="100%">
 
-| Setup | Result |
-|---|---|
-| Server and client with the mod | Colors are saved with the world and everyone with the mod sees them. |
-| Client with the mod, server without | Colors are kept in `config/morebeaconcolors-local.json` (per server address) and only you see them. |
-| Client without the mod | Vanilla beams. Nothing to install to join. |
+![Configuration](https://raw.githubusercontent.com/MyCelium-GG/More-Beacon-Colors/5763881fdbc0/docs/img/banners/configuration.svg)
 
-On a server, a player can only color a beacon they have open (within
-8 blocks, like the beacon menu). Colors of a beacon that was broken are
-forgotten.
+<img src="https://raw.githubusercontent.com/MyCelium-GG/More-Beacon-Colors/5763881fdbc0/docs/img/banners/configuration-table.svg" alt="Configuration table: enabled, true, Master switch (also toggleable live via Mycel.setEnabled).; showButton, true, Show the color button on the beacon screen (client).; allowAnimated, true, Allow rainbow, color cycle and pulse beams (server).; debug, false, Log color changes, syncing and clean-ups." width="100%">
 
-### Where colors live
-
-- `<world>/data/morebeaconcolors.json` on the server: one entry per colored
-  beacon (dimension, position, style, colors as `#RRGGBB`). Hand-editable;
-  a file that no longer parses is kept as `.broken`.
-- `config/morebeaconcolors-local.json` on the client, for servers without
-  the mod.
-
-## Anonymous stats
-
-More Beacon Colors sends anonymous stats (how many beams get colored, which modes, and errors in its own code) to its FastStats project through
-Mycel. It follows Mycel's choice exactly: the one-time screen in your own
-game, `shareStats` / `shareErrors` in `config/mycel.json` on servers.
-Details: https://wiki.mycelium-gg.org/privacy#stats-morebeaconcolors
-
-## Configuration (`config/morebeaconcolors.json`)
-
-| Key | Default | Meaning |
-|---|---|---|
-| `enabled` | `true` | Master switch (also toggleable live via `Mycel.setEnabled`). |
-| `showButton` | `true` | Show the color button on the beacon screen (client). |
-| `allowAnimated` | `true` | Allow rainbow, color cycle and pulse beams (server). |
-| `debug` | `false` | Log color changes, syncing and clean-ups. |
-
-Reload live with `/mycel reload morebeaconcolors`. A config screen is
-available from the mod list on Forge and NeoForge.
-
-## Building
-
-JDK 25, then:
-
-```sh
-./gradlew build            # all loaders + tests
-./gradlew :common:test     # unit tests only
-./gradlew :fabric:runClient
-```
-
-Styles, beam painting, colors and the JSON store live in `common/.../data`
-without Minecraft classes and are covered by unit tests. The client repaints
-beams by swapping the beacon's beam sections each tick (no mixins).
-
-Mycel itself comes from [JitPack](https://jitpack.io/#MyCelium-GG/MyCel-Lib)
-as one universal jar for all loaders
-(the version is `mycel_version` in `gradle.properties`). No local setup needed.
-
-## Releasing
-
-Push a version tag (`git tag 1.0.0 && git push origin 1.0.0`). The
-`release` workflow builds the three loader jars, attaches them to a GitHub
-Release and uploads them to CurseForge once `curseforge_project_id` is set in
-`gradle.properties` (token in the `CURSEFORGE_TOKEN` secret).
-
-## License
-
-MIT, see [LICENSE](LICENSE).
+<img src="https://raw.githubusercontent.com/MyCelium-GG/More-Beacon-Colors/5763881fdbc0/docs/img/banners/configuration-box.svg" alt="Reload live with /mycel reload morebeaconcolors. A config screen is available from the mod list on Forge and NeoForge." width="100%">
