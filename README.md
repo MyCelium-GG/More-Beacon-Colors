@@ -13,6 +13,8 @@
   <a href="https://github.com/MyCelium-GG/More-Beacon-Colors/blob/main/LICENSE"><img src="https://img.shields.io/github/license/MyCelium-GG/More-Beacon-Colors?style=flat-square&color=F2C14E" alt="License"></a>
 </p>
 
+<a href="https://www.curseforge.com/minecraft/mc-mods/mycel"><img src="https://raw.githubusercontent.com/MyCelium-GG/More-Beacon-Colors/d8b494990092/docs/img/banners/mycel-required.svg" alt="Mycel is required: this mod needs the Mycel library to run. Install Mycel next to it, for the same Minecraft version and loader. Download it from CurseForge." width="100%"></a>
+
 ![About the mod](https://raw.githubusercontent.com/MyCelium-GG/More-Beacon-Colors/5763881fdbc0/docs/img/banners/about-the-mod.svg)
 
 <img src="https://raw.githubusercontent.com/MyCelium-GG/More-Beacon-Colors/5763881fdbc0/docs/img/banners/about.svg" alt="More Beacon Colors Any color for your beacon beam, picked from a menu in the beacon. A button beside the beacon screen opens it: solid colors from the 16 dyes or any custom color, gradients through as many colors as you like, rainbows, color cycles and pulses, with a live preview. On a server with the mod, colors are saved with the world and every player with the mod sees them. On a server without it, they are kept on your computer and only you see them." width="100%">
