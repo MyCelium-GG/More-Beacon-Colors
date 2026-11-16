@@ -15,12 +15,12 @@ Any color for your beacon beam, picked from a menu in the beacon. Solid colors, 
 - Aurora: your colors drift along the beam in slow waves, like northern lights
 - Presets: Candy Cane, Christmas Lights, Aurora, Frost, Fire, Ocean, Sunset and Pride, one click each
 - Copy and paste: copy a beam and paste it on another beacon, or share its code in chat
+- Slow, normal and fast speeds
+- Live preview with day and night sky; scroll to zoom out over the whole beam
 
 ![A candy cane beacon beam, red and white stripes rising into the night sky, between rainbow and blue beams](https://wiki.mycelium-gg.org/morebeaconcolors/img/candy-cane.png?v=120)
 
 ![The color menu with the Presets list open: Candy Cane, Christmas Lights, Aurora, Frost, Fire, Ocean, Sunset, Pride, then Copy and Paste](https://wiki.mycelium-gg.org/morebeaconcolors/img/presets.png?v=120)
-- Slow, normal and fast speeds
-- Live preview with day and night sky; scroll to zoom out over the whole beam
 
 ![The color menu with a gradient selected and a live beam preview](https://wiki.mycelium-gg.org/morebeaconcolors/img/menu-gradient.png)
 
