@@ -6,6 +6,19 @@ More Beacon Colors is versioned semantically (`MAJOR.MINOR.PATCH`).
 It runs on Minecraft 26.3, 26.2 and 26.1 (Fabric + Forge + NeoForge, Java 25) and requires
 [Mycel](https://github.com/MyCelium-GG/MyCel-Lib) (`my.celium.org`).
 
+## [1.2.0] - 2026-11-16
+
+### Added
+- Stripes: bands of your colors rising up the beam. Red and white is a candy cane.
+- Aurora: your colors drift along the beam in slow, soft waves, like northern lights.
+- Presets: one click for Candy Cane, Christmas Lights, Aurora, Frost, Fire, Ocean, Sunset or Pride, from the new Presets button in the color menu.
+- Copy and paste: copy a beam (or Ctrl+C) and paste it on another beacon (or Ctrl+V). The beam goes to your clipboard as a short code like `beam:stripes:1:E53935,FFFFFF`, which also works when pasted from chat, so you can share beams with friends.
+
+### Changed
+- The style tiles are now in four columns; "Color cycle" is called "Cycle".
+- Installed without Mycel, the game still starts: More Beacon Colors stays off and says in chat that Mycel is missing, with a download link.
+- Players on version 1.1.2 or older see Stripes and Aurora beams as vanilla beams until they update.
+
 ## [1.1.2] - 2026-11-04
 
 ### Changed

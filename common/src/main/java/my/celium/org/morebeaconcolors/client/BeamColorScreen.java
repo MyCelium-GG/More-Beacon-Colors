@@ -12,6 +12,8 @@ import my.celium.org.morebeaconcolors.data.BeamPainter;
 import my.celium.org.morebeaconcolors.data.BeamStyle;
 import my.celium.org.morebeaconcolors.data.BeamStyle.Mode;
 import my.celium.org.morebeaconcolors.data.Colors;
+import my.celium.org.morebeaconcolors.data.Looks;
+import my.celium.org.morebeaconcolors.data.StyleCode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
@@ -34,7 +36,9 @@ import net.minecraft.util.Util;
  * whole beam. Right: style tiles (each showing the style
  * in your colors), the colors (up to 16 for gradients and pulses) with
  * palette, picker and hex field, and the
- * speed of animated styles. Apply sends it to the server (or saves it
+ * speed of animated styles. "Presets" opens ready-made beams and copy and
+ * paste (also Ctrl+C and Ctrl+V), which go through the system clipboard as
+ * a beam code, so they can be shared in chat. Apply sends it to the server (or saves it
  * locally on servers without the mod). Closing returns to the beacon, which
  * stays open. Client only.
  */
@@ -49,6 +53,10 @@ public final class BeamColorScreen extends Screen {
     static final int PICK_H = 30;
     static final int HUE_H = 6;
     static final int ROW_H = 14;
+    static final int TILE_COLS = 4;
+    static final int MENU_W = 150;
+    static final int MENU_ROW = 12;
+    static final String LOOKS_LABEL = "Presets";
     static final long MESSAGE_MS = 4000;
     static final Identifier BEAM_TEXTURE = Identifier.withDefaultNamespace("textures/entity/beacon/beacon_beam.png");
 
@@ -88,6 +96,9 @@ public final class BeamColorScreen extends Screen {
     private String message;
     private int messageColor;
     private long messageUntil;
+    /** Whether the presets menu is open, and the beam on the clipboard when it was opened (or null). */
+    private boolean looksOpen;
+    private BeamStyle clipboard;
 
     private record Rect(int x, int y, int w, int h) {
         boolean contains(double mx, double my) {
@@ -158,20 +169,52 @@ public final class BeamColorScreen extends Screen {
         return py() + TITLE_BAR + 6;
     }
 
-    /** Style tiles: 3 columns, 2 rows. */
+    /** Style tiles: 4 columns, 2 rows. */
     private List<Rect> tiles() {
         List<Rect> out = new ArrayList<>();
-        int w = (x1() - x0() - 2 * 4) / 3;
+        int w = (x1() - x0() - (TILE_COLS - 1) * 4) / TILE_COLS;
         int y = top() + 11;
         Mode[] modes = Mode.values();
         for (int i = 0; i < modes.length; i++) {
-            out.add(new Rect(x0() + (i % 3) * (w + 4), y + (i / 3) * (TILE_H + 3), w, TILE_H));
+            out.add(new Rect(x0() + (i % TILE_COLS) * (w + 4), y + (i / TILE_COLS) * (TILE_H + 3), w, TILE_H));
         }
         return out;
     }
 
+    /** The "Presets" chip at the end of the STYLE line. */
+    private Rect looksChip() {
+        int w = font.width(LOOKS_LABEL) + 12;
+        return new Rect(x1() - w, top() - 3, w, 12);
+    }
+
+    /** The presets menu: the looks, a gap, then copy and paste. */
+    private List<Rect> menuRows() {
+        List<Rect> out = new ArrayList<>();
+        Rect chip = looksChip();
+        int x = x1() - MENU_W + 3;
+        int y = chip.bottom() + 5;
+        for (int i = 0; i < Looks.ALL.size(); i++) {
+            out.add(new Rect(x, y, MENU_W - 6, MENU_ROW));
+            y += MENU_ROW;
+        }
+        y += 5;
+        for (int i = 0; i < 2; i++) {
+            out.add(new Rect(x, y, MENU_W - 6, MENU_ROW));
+            y += MENU_ROW;
+        }
+        return out;
+    }
+
+    private Rect menu() {
+        List<Rect> rows = menuRows();
+        Rect first = rows.get(0);
+        Rect last = rows.get(rows.size() - 1);
+        return new Rect(first.x() - 3, first.y() - 3, MENU_W, last.bottom() + 3 - (first.y() - 3));
+    }
+
     private int descY() {
-        return top() + 11 + 2 * TILE_H + 3 + 5;
+        int rows = (Mode.values().length + TILE_COLS - 1) / TILE_COLS;
+        return top() + 11 + rows * TILE_H + (rows - 1) * 3 + 5;
     }
 
     /** Where the second section ("Colors", or "Speed" for rainbow and cycle) starts. */
@@ -417,6 +460,48 @@ public final class BeamColorScreen extends Screen {
         apply();
     }
 
+    private void useLook(BeamStyle look, String name) {
+        style = look;
+        slot = 0;
+        syncHsv();
+        rebuildWidgets();
+        flash(name + ": press Apply to keep it", MycelTheme.HEADING);
+    }
+
+    private void copyLook() {
+        if (minecraft == null) {
+            return;
+        }
+        minecraft.keyboardHandler.setClipboard(StyleCode.write(style));
+        flash("Copied. Paste it on another beacon or in chat", MycelTheme.HEADING);
+    }
+
+    /** The beam code on the system clipboard, or null. */
+    private BeamStyle readClipboard() {
+        if (minecraft == null) {
+            return null;
+        }
+        try {
+            return StyleCode.read(minecraft.keyboardHandler.getClipboard());
+        } catch (RuntimeException e) {
+            return null;
+        }
+    }
+
+    private void pasteLook() {
+        BeamStyle pasted = readClipboard();
+        if (pasted == null) {
+            flash("No beam on the clipboard. Copy one first", MycelTheme.WARN);
+            return;
+        }
+        useLook(pasted, "Pasted");
+    }
+
+    private void openLooks() {
+        looksOpen = !looksOpen;
+        clipboard = looksOpen ? readClipboard() : null;
+    }
+
     private void flash(String text, int color) {
         message = text;
         messageColor = color;
@@ -471,13 +556,19 @@ public final class BeamColorScreen extends Screen {
         if (applyButton != null) {
             applyButton.active = changed();
         }
+        int realX = mouseX;
+        int realY = mouseY;
+        if (looksOpen) {
+            mouseX = -1;
+            mouseY = -1;
+        }
         super.extractRenderState(gfx, mouseX, mouseY, a);
         renderPreview(gfx, mouseX, mouseY);
         renderTiles(gfx, mouseX, mouseY);
         if (style.mode().colors > 0) {
             label(gfx, switch (style.mode()) {
                 case GRADIENT -> "COLORS, BOTTOM TO TOP";
-                case PULSE -> "COLORS, IN ORDER";
+                case PULSE, STRIPES -> "COLORS, IN ORDER";
                 default -> "COLORS";
             }, x0(), sectionY());
             renderSlots(gfx, mouseX, mouseY);
@@ -486,13 +577,18 @@ public final class BeamColorScreen extends Screen {
         }
         renderSpeed(gfx, mouseX, mouseY);
         renderFooter(gfx);
+        renderLooks(gfx, realX, realY);
     }
 
     private void label(GuiGraphicsExtractor gfx, String text, int x, int y) {
+        label(gfx, text, x, y, x1());
+    }
+
+    private void label(GuiGraphicsExtractor gfx, String text, int x, int y, int end) {
         gfx.text(font, text, x, y, MycelTheme.FAINT);
         int lineX = x + font.width(text) + 5;
-        if (lineX < x1()) {
-            gfx.fill(lineX, y + 4, x1(), y + 5, MycelTheme.BORDER);
+        if (lineX < end) {
+            gfx.fill(lineX, y + 4, end, y + 5, MycelTheme.BORDER);
         }
     }
 
@@ -641,7 +737,7 @@ public final class BeamColorScreen extends Screen {
     // ------------------------------------------------------------ style tiles
 
     private void renderTiles(GuiGraphicsExtractor gfx, int mx, int my) {
-        label(gfx, "STYLE", x0(), top());
+        label(gfx, "STYLE", x0(), top(), looksChip().x() - 5);
         List<Rect> tiles = tiles();
         Mode[] modes = Mode.values();
         double ticks = ticks();
@@ -677,6 +773,8 @@ public final class BeamColorScreen extends Screen {
             case RAINBOW -> "Rainbow stripes rising up the beam.";
             case CYCLE -> "The whole beam runs through every color.";
             case PULSE -> "Fades through your colors and back.";
+            case STRIPES -> "Stripes of your colors rising up the beam.";
+            case AURORA -> "Your colors drift in slow waves, like northern lights.";
         };
     }
 
@@ -685,6 +783,90 @@ public final class BeamColorScreen extends Screen {
         gfx.fill(r.x() + 1, r.y() + 1, r.right() - 1, r.bottom() - 1,
                 on ? MycelTheme.ACCENT_DARK : hover ? MycelTheme.BORDER : MycelTheme.SURFACE);
         gfx.text(font, label, r.x() + 6, r.y() + 3, on || hover ? MycelTheme.HEADING : MycelTheme.DIM);
+    }
+
+    // ------------------------------------------------------------ presets
+
+    private void renderLooks(GuiGraphicsExtractor gfx, int mx, int my) {
+        Rect chip = looksChip();
+        chip(gfx, chip, LOOKS_LABEL, looksOpen, !looksOpen && chip.contains(mx, my));
+        if (!looksOpen) {
+            if (chip.contains(mx, my)) {
+                gfx.setTooltipForNextFrame(font, Component.literal("Ready-made beams, copy and paste"), mx, my);
+            }
+            return;
+        }
+        gfx.nextStratum();
+        Rect menu = menu();
+        gfx.fill(menu.x() - 1, menu.y() - 1, menu.right() + 1, menu.bottom() + 1, MycelTheme.ACCENT);
+        gfx.fill(menu.x(), menu.y(), menu.right(), menu.bottom(), 0xFF141414);
+        List<Rect> rows = menuRows();
+        double ticks = ticks();
+        int looks = Looks.ALL.size();
+        for (int i = 0; i < rows.size(); i++) {
+            Rect r = rows.get(i);
+            boolean usable = i != looks + 1 || clipboard != null;
+            boolean hover = usable && r.contains(mx, my);
+            if (hover) {
+                gfx.fill(r.x(), r.y(), r.right(), r.bottom(), MycelTheme.BORDER);
+            }
+            String name;
+            BeamStyle swatch;
+            if (i < looks) {
+                name = Looks.ALL.get(i).name();
+                swatch = Looks.ALL.get(i).style();
+            } else if (i == looks) {
+                name = "Copy this beam";
+                swatch = style.isVanilla() ? BeamStyle.solid(0xFFFFFF) : style;
+            } else {
+                name = clipboard != null ? "Paste beam" : "Nothing to paste";
+                swatch = clipboard;
+            }
+            // The beam lying on its side: bottom on the left.
+            int sx = r.x() + 3;
+            if (swatch != null) {
+                int x = sx;
+                for (BeamPainter.Segment segment : BeamPainter.paint(swatch, 13, (long) ticks, (float) (ticks % 1))) {
+                    int w = segment.height() * 2;
+                    gfx.fill(x, r.y() + 3, Math.min(sx + 26, x + w), r.bottom() - 3, 0xFF000000 | segment.rgb());
+                    x += w;
+                }
+            }
+            gfx.text(font, MycelTheme.fit(font, name, r.w() - 36), sx + 31, r.y() + 2,
+                    !usable ? MycelTheme.FAINT : hover ? MycelTheme.HEADING : MycelTheme.TEXT);
+        }
+        Rect gap = rows.get(looks);
+        gfx.fill(menu.x() + 4, gap.y() - 3, menu.right() - 4, gap.y() - 2, MycelTheme.BORDER);
+        if (gap.contains(mx, my) || rows.get(looks + 1).contains(mx, my)) {
+            gfx.setTooltipForNextFrame(font, Component.literal(gap.contains(mx, my)
+                    ? "Copies a code like beam:stripes:1:E53935,FFFFFF (Ctrl+C)"
+                    : "Uses a beam code from the clipboard, also from chat (Ctrl+V)"), mx, my);
+        }
+    }
+
+    /** Handles a click while the presets menu is open; every click is used up. */
+    private void clickLooks(double mx, double my) {
+        List<Rect> rows = menuRows();
+        int looks = Looks.ALL.size();
+        for (int i = 0; i < rows.size(); i++) {
+            if (!rows.get(i).contains(mx, my)) {
+                continue;
+            }
+            if (i < looks) {
+                useLook(Looks.ALL.get(i).style(), Looks.ALL.get(i).name());
+            } else if (i == looks) {
+                copyLook();
+            } else if (clipboard != null) {
+                useLook(clipboard, "Pasted");
+            } else {
+                return;
+            }
+            looksOpen = false;
+            return;
+        }
+        if (!menu().contains(mx, my)) {
+            looksOpen = false;
+        }
     }
 
     // ------------------------------------------------------------ colors
@@ -828,6 +1010,14 @@ public final class BeamColorScreen extends Screen {
 
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        if (looksOpen) {
+            clickLooks(event.x(), event.y());
+            return true;
+        }
+        if (event.button() == InputConstants.MOUSE_BUTTON_LEFT && looksChip().contains(event.x(), event.y())) {
+            openLooks();
+            return true;
+        }
         if (super.mouseClicked(event, doubleClick)) {
             return true;
         }
@@ -922,6 +1112,9 @@ public final class BeamColorScreen extends Screen {
 
     @Override
     public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
+        if (looksOpen) {
+            return true;
+        }
         if (preview().contains(x, y) && scrollY != 0) {
             float next = scrollY > 0 ? zoom * ZOOM_STEP : zoom / ZOOM_STEP;
             zoom = Math.max(minZoom(), Math.min(MAX_ZOOM, next));
@@ -932,6 +1125,19 @@ public final class BeamColorScreen extends Screen {
 
     @Override
     public boolean keyPressed(KeyEvent event) {
+        if (looksOpen && event.isEscape()) {
+            looksOpen = false;
+            return true;
+        }
+        boolean typing = hex != null && hex.isFocused();
+        if (!typing && event.isCopy()) {
+            copyLook();
+            return true;
+        }
+        if (!typing && event.isPaste()) {
+            pasteLook();
+            return true;
+        }
         if (event.isConfirmation()) {
             apply();
             return true;

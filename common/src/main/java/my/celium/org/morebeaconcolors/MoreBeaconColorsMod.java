@@ -26,7 +26,7 @@ import my.celium.org.network.PacketDefinition;
 public final class MoreBeaconColorsMod {
     public static final String ID = "morebeaconcolors";
 
-    public static final ModMetadata META = ModMetadata.builder(ID, "More Beacon Colors", "1.1.2")
+    public static final ModMetadata META = ModMetadata.builder(ID, "More Beacon Colors", "1.2.0")
             .author("MyCelium")
             .website("https://www.curseforge.com/minecraft/mc-mods/more-beacon-colors")
             .updateUrl("https://wiki.mycelium-gg.org/updates/morebeaconcolors.json")
@@ -55,7 +55,7 @@ public final class MoreBeaconColorsMod {
         showButton = builder.booleanValue("showButton", true,
                 "Show the color button on the beacon screen (client).");
         allowAnimated = builder.booleanValue("allowAnimated", true,
-                "Allow rainbow, color cycle and pulse beams (server).");
+                "Allow animated beams: rainbow, cycle, pulse, stripes and aurora (server).");
         debug = builder.booleanValue("debug", false,
                 "Log color changes, syncing and clean-ups to the game log.");
         config = builder.build();

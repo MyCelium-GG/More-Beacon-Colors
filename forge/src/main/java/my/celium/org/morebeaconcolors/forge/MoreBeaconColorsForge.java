@@ -1,31 +1,33 @@
 package my.celium.org.morebeaconcolors.forge;
 
-import my.celium.org.client.ClientHooks;
-import my.celium.org.morebeaconcolors.MoreBeaconColorsMod;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
+import my.celium.org.morebeaconcolors.MissingMycel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ConfigScreenHandler;
-import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
 /**
- * Forge entrypoint: packets travel on Mycel's shared channel (registered in
- * {@link MoreBeaconColorsMod#init()}); client hooks live in
- * {@link ClientMoreBeaconColors} so dedicated servers never load client classes.
+ * Forge entrypoint. Without Mycel the game still starts: More Beacon Colors stays off and says so in
+ * chat. Everything that needs Mycel lives in {@link ForgeSetup}.
  */
-@Mod(MoreBeaconColorsMod.ID)
+@Mod("morebeaconcolors")
 public final class MoreBeaconColorsForge {
     public MoreBeaconColorsForge(@SuppressWarnings("unused") FMLJavaModLoadingContext context) {
-        MoreBeaconColorsMod.init();
-        if (FMLEnvironment.dist == Dist.CLIENT) {
-            ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
-                    () -> new ConfigScreenHandler.ConfigScreenFactory(
-                            (Minecraft minecraft, Screen parent) -> ClientHooks.createConfigScreen(parent,
-                                    MoreBeaconColorsMod.ID)));
-            ClientMoreBeaconColors.register();
+        if (!ModList.isLoaded("mycel")) {
+            MissingMycel.logOnce();
+            PlayerEvent.PlayerLoggedInEvent.BUS.addListener(event -> {
+                if (event.getEntity() instanceof ServerPlayer player) {
+                    MissingMycel.tell(player);
+                }
+            });
+            if (FMLEnvironment.dist == Dist.CLIENT) {
+                ClientMissingMycel.register();
+            }
+            return;
         }
+        ForgeSetup.start();
     }
 }

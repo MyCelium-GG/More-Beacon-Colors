@@ -14,6 +14,8 @@ import java.util.Locale;
  * <li>{@link Mode#RAINBOW}: rainbow stripes that rise up the beam.</li>
  * <li>{@link Mode#CYCLE}: the whole beam slowly runs through every hue.</li>
  * <li>{@link Mode#PULSE}: the whole beam fades through all colors and back.</li>
+ * <li>{@link Mode#STRIPES}: bands of the colors, in order, rising up the beam (red and white is a candy cane).</li>
+ * <li>{@link Mode#AURORA}: the colors drift along the beam in slow, soft waves, like northern lights.</li>
  * </ul>
  *
  * There is always at least one color and at most {@link #MAX_COLORS}; a mode
@@ -32,8 +34,11 @@ public record BeamStyle(Mode mode, List<Integer> colors, int speed) {
         SOLID("Solid", false, 1, 1),
         GRADIENT("Gradient", false, 2, MAX_COLORS),
         RAINBOW("Rainbow", true, 0, 0),
-        CYCLE("Color cycle", true, 0, 0),
-        PULSE("Pulse", true, 2, MAX_COLORS);
+        CYCLE("Cycle", true, 0, 0),
+        PULSE("Pulse", true, 2, MAX_COLORS),
+        // New modes go last: the network sends the ordinal, and older versions show unknown ones as vanilla.
+        STRIPES("Stripes", true, 2, MAX_COLORS),
+        AURORA("Aurora", true, 2, MAX_COLORS);
 
         public final String label;
         public final boolean animated;

@@ -1,23 +1,25 @@
 package my.celium.org.morebeaconcolors.fabric;
 
-import my.celium.org.fabric.FabricNetworking;
-import my.celium.org.morebeaconcolors.client.BeamButton;
-import my.celium.org.morebeaconcolors.client.ClientBeams;
+import my.celium.org.morebeaconcolors.MissingMycel;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
-import net.fabricmc.fabric.api.client.screen.v1.Screens;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.loader.api.FabricLoader;
 
+/**
+ * Fabric client entrypoint. Without Mycel the game still starts: the mod stays off and says so in chat
+ * when joining a server (singleplayer worlds get the message from {@link MoreBeaconColorsFabric}).
+ */
 public final class MoreBeaconColorsFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        FabricNetworking.flushClient();
-        ClientTickEvents.END_CLIENT_TICK.register(client -> ClientBeams.tick());
-        ScreenEvents.AFTER_INIT.register((client, screen, width, height) -> {
-            BeamButton button = BeamButton.create(screen);
-            if (button != null) {
-                Screens.getWidgets(screen).add(button);
-            }
-        });
+        if (!FabricLoader.getInstance().isModLoaded("mycel")) {
+            ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+                if (!client.isLocalServer() && client.player != null) {
+                    client.player.sendSystemMessage(MissingMycel.message());
+                }
+            });
+            return;
+        }
+        FabricClientSetup.start();
     }
 }

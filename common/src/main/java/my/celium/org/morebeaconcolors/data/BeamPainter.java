@@ -13,6 +13,12 @@ public final class BeamPainter {
     static final int STEP = 2;
     /** Blocks per full rainbow. */
     static final int RAINBOW_SPAN = 48;
+    /** Blocks per stripe. */
+    static final int STRIPE = 3;
+    /** Blocks the stripes rise in one {@link #PERIOD}. */
+    static final int STRIPE_RISE = 12;
+    /** Blocks per aurora wave. */
+    static final int AURORA_SPAN = 40;
     /** Ticks for one color cycle or pulse at speed 1, 2, 3. */
     static final int[] PERIOD = {0, 400, 160, 60};
 
@@ -55,8 +61,38 @@ public final class BeamPainter {
                 float t = (float) ((1 - Math.cos(phase)) / 2);
                 out.add(new Segment(sample(style.used(), t), total));
             }
+            case STRIPES -> stripes(out, style.used(), total, time / PERIOD[style.speed()] * STRIPE_RISE);
+            case AURORA -> {
+                // Two slow waves of different lengths, drifting at different speeds, so it never looks regular.
+                double phase = time / PERIOD[style.speed()] / 2;
+                for (int y = 0; y < total; y += STEP) {
+                    double at = (y + STEP / 2.0) / AURORA_SPAN;
+                    double t = 0.5 + 0.32 * Math.sin(2 * Math.PI * (at - phase))
+                            + 0.18 * Math.sin(2 * Math.PI * (at * 2.7 + phase * 1.6));
+                    out.add(new Segment(sample(style.used(), (float) t), Math.min(STEP, total - y)));
+                }
+            }
         }
         return merge(out);
+    }
+
+    /**
+     * Stripes of {@link #STRIPE} blocks in the order of {@code colors}, moved {@code shift} blocks up.
+     * A block a stripe edge runs through gets both colors mixed, so the stripes glide instead of jumping.
+     */
+    static void stripes(List<Segment> out, List<Integer> colors, int total, double shift) {
+        int n = colors.size();
+        for (int y = 0; y < total; y++) {
+            double q = (y - shift) / STRIPE;
+            long index = (long) Math.floor(q);
+            double edge = shift + (index + 1) * STRIPE;
+            int here = colors.get(Math.floorMod(index, n));
+            int rgb = here;
+            if (edge < y + 1) {
+                rgb = Colors.lerp(here, colors.get(Math.floorMod(index + 1, n)), (float) (y + 1 - edge));
+            }
+            out.add(new Segment(rgb, 1));
+        }
     }
 
     /** The color at {@code t} (0 to 1) along evenly spaced {@code colors}. */
