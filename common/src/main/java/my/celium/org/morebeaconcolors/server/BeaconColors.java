@@ -119,12 +119,12 @@ public final class BeaconColors {
             return;
         }
         if (!MoreBeaconColorsMod.isModEnabled()) {
-            player.sendSystemMessage(VOICE.fail("Beam colors are turned off on this server."));
+            player.sendSystemMessage(VOICE.fail(MoreBeaconColorsMod.LANG.get(player, "server.off")));
             return;
         }
         BeamStyle style = packet.style();
         if (style.animated() && !MoreBeaconColorsMod.allowAnimated.get()) {
-            player.sendSystemMessage(VOICE.fail("Animated beams are turned off on this server."));
+            player.sendSystemMessage(VOICE.fail(MoreBeaconColorsMod.LANG.get(player, "server.no_animated")));
             return;
         }
         ServerLevel level = (ServerLevel) player.level();

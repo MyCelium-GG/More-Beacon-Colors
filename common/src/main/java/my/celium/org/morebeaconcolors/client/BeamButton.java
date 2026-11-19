@@ -39,10 +39,10 @@ public final class BeamButton extends AbstractButton {
     private final ItemStack icon = new ItemStack(Items.BEACON);
 
     private BeamButton(BeaconScreen beacon, BlockPos pos, int x, int y) {
-        super(x, y, SIZE, SIZE, Component.literal("Beam color"));
+        super(x, y, SIZE, SIZE, Component.literal(BeamColorScreen.tr("button")));
         this.beacon = beacon;
         this.pos = pos;
-        setTooltip(Tooltip.create(Component.literal("Beam color")));
+        setTooltip(Tooltip.create(Component.literal(BeamColorScreen.tr("button"))));
     }
 
     /** The button for {@code screen}, or {@code null} when it is not a beacon (or the button is off). */

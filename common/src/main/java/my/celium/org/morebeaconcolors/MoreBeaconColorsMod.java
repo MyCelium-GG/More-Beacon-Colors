@@ -8,6 +8,7 @@ import my.celium.org.event.MycelEvents;
 import my.celium.org.event.ServerLifecycleEvent;
 import my.celium.org.logging.MycelLog;
 import my.celium.org.metadata.ModMetadata;
+import my.celium.org.translation.ModLang;
 import my.celium.org.morebeaconcolors.net.BeamsPacket;
 import my.celium.org.morebeaconcolors.net.SetBeamPacket;
 import my.celium.org.morebeaconcolors.server.BeaconColors;
@@ -26,7 +27,10 @@ import my.celium.org.network.PacketDefinition;
 public final class MoreBeaconColorsMod {
     public static final String ID = "morebeaconcolors";
 
-    public static final ModMetadata META = ModMetadata.builder(ID, "More Beacon Colors", "1.2.0")
+    /** Server messages in each player's language (assets/morebeaconcolors/lang). */
+    public static final ModLang LANG = ModLang.of("morebeaconcolors", MoreBeaconColorsMod.class);
+
+    public static final ModMetadata META = ModMetadata.builder(ID, "More Beacon Colors", "1.3.0")
             .author("MyCelium")
             .website("https://www.curseforge.com/minecraft/mc-mods/more-beacon-colors")
             .updateUrl("https://wiki.mycelium-gg.org/updates/morebeaconcolors.json")

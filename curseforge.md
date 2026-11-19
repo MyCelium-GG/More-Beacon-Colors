@@ -28,6 +28,8 @@ Any color for your beacon beam, picked from a menu in the beacon. Solid colors, 
 
 Install it on both sides to share colors. Players without the mod see vanilla beams and can join as usual. On a server without the mod, your colors stay on your computer.
 
+In 11 languages: English, German, Spanish, French, Dutch, Brazilian Portuguese, Russian, Polish, Italian, Japanese and Simplified Chinese.
+
 Requires [Mycel](https://www.curseforge.com/minecraft/mc-mods/mycel): install it alongside this mod. Without it the game still starts, and the mod tells you in chat that Mycel is missing. Minecraft 26.1, 26.2 and 26.3 on Fabric, Forge and NeoForge, Java 25. On Fabric you also need Fabric API.
 
 Every setting and command is on the [wiki](https://wiki.mycelium-gg.org/morebeaconcolors/).
